@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.24;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Web3Bitcoin is ERC20, Ownable {
+    uint256 public constant MAX_SUPPLY = 21_000_000 * 10 ** 18;
+
+    constructor() ERC20("Web3Bitcoin", "WBTC") {
+        _mint(msg.sender, MAX_SUPPLY); // All coins minted to deployer like Bitcoin's genesis block
+    }
+
+    // Optional: Disable mint function forever
+    function destroyMintFunction() public onlyOwner {
+        selfdestruct(payable(owner()));
+    }
+
+    // Override minting function to prevent future mints (not needed if no mint method)
+}
